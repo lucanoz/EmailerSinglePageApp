@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailerSinglePageApp", "EmailerSinglePageApp\EmailerSinglePageApp.csproj", "{555748C6-1B05-412B-861F-932D326FA977}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{555748C6-1B05-412B-861F-932D326FA977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{555748C6-1B05-412B-861F-932D326FA977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{555748C6-1B05-412B-861F-932D326FA977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{555748C6-1B05-412B-861F-932D326FA977}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCA0750C-9863-4FBE-8CFF-77BC41888B01}
+	EndGlobalSection
+EndGlobal

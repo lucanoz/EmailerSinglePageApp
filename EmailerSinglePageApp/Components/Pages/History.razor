@@ -1,0 +1,46 @@
+﻿@page "/history"
+@using EmailerSinglePageApp.Controller.Models
+@using EmailerSinglePageApp.Service
+@rendermode InteractiveServer
+@inject IEmailService EmailService
+
+<PageTitle>History</PageTitle>
+
+<h1>Previously sent emails</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>From</th>
+			<th>To</th>
+			<th>CC</th>
+			<th>Subject</th>
+			<th>Importance</th>
+			<th>Body</th>
+			<th>SentDateTime</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var email in Emails)
+		{
+			<tr>
+				<td>@email.FromAddress</td>
+				<td>@email.ToAddress</td>
+				<td>@email.CcAddresses</td>
+				<td>@email.Subject</td>
+				<td>@email.Importance</td>
+				<td>@email.Body</td>
+				<td>@email.CreatedOn</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@code {
+	public List<EmailResponseModel> Emails { get; set; } = new List<EmailResponseModel>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		Emails = await EmailService.GetAllEmails();
+	}
+}

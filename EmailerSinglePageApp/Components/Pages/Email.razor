@@ -1,0 +1,109 @@
+﻿@page "/email"
+@using EmailerSinglePageApp.Controller.Models
+@using EmailerSinglePageApp.Service
+@rendermode InteractiveServer
+@inject IJSRuntime JsRuntime
+@inject IEmailService EmailService
+
+<PageTitle>Email</PageTitle>
+
+<h1>Send new email</h1>
+
+<EditForm Model="Model" OnValidSubmit="Submit" FormName="EmailForm">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<div>
+		<label>
+			From: 
+			<InputText @bind-Value="Model!.FromAddress" />
+		</label>
+	</div>
+	<br>
+	<div>
+		<label>
+			To: 
+			<InputText @bind-Value="Model!.ToAddress" />
+		</label>
+	</div>
+	<br>
+	<div>
+		<label>
+			CC: 
+			<InputText @bind-Value="Model!.CcAddresses" />
+		</label>
+	</div>
+	<br>
+	<div>
+		<label>
+			Subject: 
+			<InputText @bind-Value="Model!.Subject" />
+		</label>
+	</div>
+	<br>
+	<div>
+		<label>
+			Importance: 
+			<InputSelect @bind-Value="Model!.Importance">
+				<option value="@(Importance.Low)">Low</option>
+				<option value="@(Importance.Normal)">Normal</option>
+				<option value="@(Importance.High)">High</option>
+			</InputSelect>
+		</label>
+	</div>
+	<br>
+	<div>
+		<label>
+			Body: 
+			<InputTextArea @bind-Value="Model!.Body" cols="80"/>
+		</label>
+	</div>
+	<br>
+	<div class="row">
+		<button @onclick="CancelForm" style="width:100px">Cancel</button>
+		<button type="submit" style="width:100px">Submit</button>
+	</div>
+</EditForm>
+
+<h3>@SubmitResult</h3>
+
+@code {
+	[SupplyParameterFromForm]
+	private EmailRequestModel? Model { get; set; }
+
+	private string? SubmitResult { get; set; }
+
+	protected override void OnInitialized()
+	{
+		Model ??= new();
+	}
+
+	private async Task CancelForm()
+	{
+		bool isCanceled = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to cancel the form?");
+
+		if (isCanceled)
+		{
+			Model!.FromAddress = "";
+			Model!.ToAddress = "";
+			Model!.CcAddresses = "";
+			Model!.Subject = "";
+			Model!.Importance = Importance.Low;
+			Model!.Body = "";
+		}
+		SubmitResult = "Email submission canceled";
+	}
+
+	private async Task Submit()
+	{
+		try
+		{
+			await EmailService.SendEmail(Model!);
+			SubmitResult = $"Successfully submitted email '{Model!.Subject}'";
+		}
+		catch (Exception)
+		{
+			SubmitResult = "Error while submitting email";
+			throw;
+		}
+	}
+}

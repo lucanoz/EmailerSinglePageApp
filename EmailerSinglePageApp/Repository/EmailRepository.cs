@@ -21,7 +21,10 @@ namespace EmailerSinglePageApp.Repository
 
 		public Task<List<Email>> GetAllEmails()
 		{
-			return EmailContext.Emails.ToListAsync();
+			return EmailContext.Emails
+				.AsNoTracking()
+				.OrderByDescending(x => x.CreatedOn)
+				.ToListAsync();
 		}
 	}
 }
